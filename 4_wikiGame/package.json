@@ -8,13 +8,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch\" \"node --env-file .env index.js\""
+    "dev": "concurrently \"npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch\" \"nodemon index.js\""
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "connect-pg-simple": "^10.0.0",
     "express": "^4.21.2",
+    "express-session": "^1.18.1",
     "handlebars": "^4.7.8",
     "hbs": "^4.2.0",
+    "nodemon": "^3.1.9",
     "path": "^0.12.7"
   },
   "devDependencies": {

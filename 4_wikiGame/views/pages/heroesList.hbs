@@ -15,8 +15,10 @@
           our world. Click on a hero to learn more about their legacy and their
           incredible acts of bravery</p>
         <div class="flex items-start justify-center gap-5 mt-10">
+
+          {{#if user}}
           <a
-            href="#"
+            href="/create-heroes"
             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <svg
@@ -175,7 +177,7 @@
               </g></svg>
             <span class="pl-1"> Add Type</span>
           </a>
-
+          {{/if}}
         </div>
       </div>
       <hr
@@ -186,31 +188,35 @@
       >
 
         {{! Card 1 }}
-<div
+      {{#each heroes}}
+     <div
           class="max-w-sm max-h-[500px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden"
         >
           <a href="#">
             <img
               class="rounded-t-lg object-cover w-full h-[200px]"
-              src="https://images.pexels.com/photos/28406651/pexels-photo-28406651/free-photo-of-gereja-armenia-bersejarah-di-pulau-akdamar-van.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src="{{this.photo}}"
               alt=""
             />
           </a>
           <div class="p-5">
-            <a href="#">
+            <div class="flex items-center justify-between">
+              <a href="#">
               <h5
                 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
               >
-                Noteworthy technology acquisitions 2021
+                {{this.name}}
               </h5>
             </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              Here are the biggest enterprise technology acquisitions of 2021 so
-              far, in reverse chronological order.
+              <p class="bg-red-100 rounded-lg px-3 text-sm">{{this.type_name}}</p>
+            </div>
+            <p class="my-5 font-normal text-gray-700 dark:text-gray-400">
+              {{{safeHTML this.desc}}}
             </p>
-            <div class="mb-2 w-full flex justify-between">
+            <div class="my-2 w-full flex justify-between gap-2">
+            {{#if (eq this.user_id ../user.id)}}
               <a
-              href="/edit-heroes"
+              href="/edit-heroes/{{this.id}}"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
               Edit Heroes
@@ -231,7 +237,7 @@
               </svg>
             </a>
             <a
-              href="#"
+              href="/{{this.id}}/delete"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             >
               Delete Heroes
@@ -251,9 +257,10 @@
                 />
               </svg>
             </a>
+            {{/if}}
             </div>
             <a
-              href="#"
+              href="/heroes/{{this.id}}"
               class="inline-flex  justify-center w-full items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Read more
@@ -276,6 +283,7 @@
           </div>
         </div>
 
+      {{/each}}
       </div>
     </section>
 {{/layout}}

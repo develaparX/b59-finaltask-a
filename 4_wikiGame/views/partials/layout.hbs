@@ -7,11 +7,23 @@
 
   </head>
   <body>
+    
     {{!-- NAVBAR --}}
-    {{>navbar currentPage=title}}
+    {{> navbar currentPage=title user=user}}
+    
     
     {{> @partial-block}}
     
+    {{#if success}}
+      {{sweetAlert "success" "Berhasil!" success}}
+    {{/if}}
+
+    {{#if error}}
+      {{sweetAlert "error" "Gagal!" error}}
+    {{/if}}
+
+
+
     {{! FOOTER }}
     {{>footer}}
     <script

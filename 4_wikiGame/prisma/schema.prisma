@@ -44,3 +44,11 @@ model type_tb {
 
   @@map("type_tb")
 }
+
+// Table untuk pgSession
+model session {
+  sid       String   @id @map("sid")
+  sess      String   @map("sess")    
+  expire    DateTime @map("expire")  
+}
+

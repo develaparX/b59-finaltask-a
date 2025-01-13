@@ -1,12 +1,43 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
 const hbs = require("hbs");
 const path = require("path");
 const helpers = require("./utils/helpers");
+const flash = require("connect-flash");
+
+const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
+
+const authRoutes = require("./routes/auth.route.js");
+const heroesRoutes = require("./routes/heroes.route.js");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(
+  session({
+    store: new pgSession({
+      connectionString: process.env.DATABASE_URL,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 hari
+    },
+  })
+);
+
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "./views/pages"));
@@ -14,57 +45,22 @@ hbs.registerPartials(__dirname + "/views/partials");
 
 helpers.registerHelpers(hbs);
 
-const prisma = new PrismaClient();
+app.use(authRoutes);
+app.use(heroesRoutes);
 
-app.get("/", async (req, res) => {
-  const allUsers = await prisma.users_tb.findMany();
-  console.log(allUsers);
-  res.render("homepage");
-});
-
-app.get("/heroes", async (req, res) => {
-  res.render("heroesList");
-});
-
-app.get("/login", async (req, res) => {
-  res.render("login");
-});
-
-app.get("/register", async (req, res) => {
-  res.render("register");
-});
-
-app.get("/create-heroes", async (req, res) => {
-  res.render("heroesAdd");
-});
-
-app.get("/create-type", async (req, res) => {
-  res.render("heroesType");
-});
-
-app.get("/edit-heroes", async (req, res) => {
-  res.render("heroesEdit");
-});
-
-app.get("/create-type", async (req, res) => {
-  res.render("heroesType");
-});
-
-app.post("/users", async (req, res) => {
-  const { email, username, password } = req.body;
-
+async function testDatabaseConnection() {
   try {
-    const result =
-      await prisma.$executeRaw`INSERT INTO "users_tb" ("email","username","password") VALUES (${email},${username},${password}) RETURNING *`;
-
-    res.status(201).json(result);
+    await prisma.$connect();
+    console.log("Database connected successfully!");
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "An error occurred while creating user" });
+    console.error("Failed to connect to the database:", error.message);
+  } finally {
+    await prisma.$disconnect();
   }
-});
+}
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
+  testDatabaseConnection();
   console.log(`Server running on port ${PORT}`);
 });
