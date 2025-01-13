@@ -1,0 +1,22 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Favorite Heroes! | {{title}}</title>
+    <link href="/css/output.css" rel="stylesheet" />
+
+  </head>
+  <body>
+    {{!-- NAVBAR --}}
+    {{>navbar currentPage=title}}
+    
+    {{> @partial-block}}
+    
+    {{! FOOTER }}
+    {{>footer}}
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"
+    ></script>
+
+  </body>
+</html>

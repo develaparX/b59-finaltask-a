@@ -29,6 +29,7 @@ model heroes_tb {
   type_id Int
   photo   String?
   user_id Int
+  desc    String?
   user    users_tb @relation(fields: [user_id], references: [id])
   type    type_tb  @relation(fields: [type_id], references: [id])
 
@@ -38,6 +39,7 @@ model heroes_tb {
 model type_tb {
   id     Int        @id @default(autoincrement())
   name   String
+  desc   String?
   heroes heroes_tb[]
 
   @@map("type_tb")

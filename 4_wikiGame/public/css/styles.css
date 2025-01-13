@@ -5,3 +5,20 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Flowbit animation for horizontal scroll */
+@keyframes scroll-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.animate-scroll-x {
+  animation: scroll-x 20s linear infinite;
+}
+
+.active-navi {
+  @apply md:text-blue-700  md:dark:text-blue-500;
+}
