@@ -17,7 +17,9 @@
       id="heroesForm"
       action="/update-heroes/{{heroes.id}}"
       method="post"
-      class="flex flex-col gap-5 w-[30%] mx-auto">
+      class="flex flex-col gap-5 w-[30%] mx-auto"
+       enctype="multipart/form-data"
+      >
         <div class="w-full">
           <label
             for="heroesName"
@@ -29,6 +31,7 @@
             name="heroesName"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Guardian of the galaxy"
+            value="{{heroes.name}}"
             required
           />
         </div>
@@ -61,6 +64,7 @@
             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             aria-describedby="user_avatar_help"
             id="heroesPhoto"
+            name="heroesPhoto"
             type="file"
           />
           <div
@@ -70,10 +74,13 @@
             account</div>
 
         </div>
+        <div class="flex items-center justify-center">
+          <img width="180"  class="max-h-25 w-auto  rounded-lg " style="display: none;"  id="img-preview" alt="Image Preview">  
+        </div>
 
         <div class="form-field mb-7">
                 <label for="heroesDesc">Description</label>
-                {{renderQuill "heroesForm" "heroesDesc" ""}}
+                {{{renderQuill "heroesForm" "heroesDesc" heroes.desc}}}
         </div>
 
         <button
@@ -83,5 +90,5 @@
       </form>
 
     </section>
-
+<script src="/utils/img-preview.js"></script>
 {{/layout}}

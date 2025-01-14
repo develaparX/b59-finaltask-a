@@ -43,7 +43,18 @@ function registerHelpers(hbs) {
     </script>
   `);
   });
-  hbs.registerHelper("safeHTML", (text) => {
+  hbs.registerHelper("substring", function (text, start, end) {
+    if (text) {
+      return text.substring(start, end);
+    }
+    return "";
+  });
+
+  hbs.registerHelper("length", function (text) {
+    return text.length || 0;
+  });
+
+  hbs.registerHelper("safeHTML", function (text) {
     return new hbs.SafeString(text);
   });
 }

@@ -1,34 +1,35 @@
 function sortArray(arr) {
-  function bubbleSortRecursive(array, n) {
+  function bubbleSort(array, n) {
     if (n === 1) return array;
 
-    // Lakukan satu iterasi bubble sort
     for (let i = 0; i < n - 1; i++) {
       if (array[i] > array[i + 1]) {
-        let temp = array[i];
-        array[i] = array[i + 1];
-        array[i + 1] = temp;
+        [array[i], array[i + 1]] = [array[i + 1], array[i]];
       }
     }
 
-    return bubbleSortRecursive(array, n - 1);
+    return bubbleSort(array, n - 1);
   }
 
-  let sortedArray = [...arr];
-  sortedArray = bubbleSortRecursive(sortedArray, sortedArray.length);
+  const sortedArray = bubbleSort([...arr], arr.length);
 
-  let oddNumbers = sortedArray.filter((num) => num % 2 !== 0);
-  let evenNumbers = sortedArray.filter((num) => num % 2 === 0);
+  const oddNumbers = sortedArray.filter((num) => num % 2 !== 0).join(" ");
 
-  console.log("Array:", sortedArray);
-  console.log("Ganjil:", oddNumbers);
-  console.log("Genap:", evenNumbers);
+  const evenNumbers = sortedArray.filter((num) => num % 2 === 0).join(" ");
+
+  const sortedArrayString = sortedArray.join(" ");
 
   return {
-    array: sortedArray,
-    ganjil: oddNumbers,
-    genap: evenNumbers,
+    Array: sortedArrayString,
+    Ganjil: oddNumbers,
+    Genap: evenNumbers,
   };
 }
 
-sortArray([2, 24, 32, 22, 31, 100, 56, 21, 99, 7, 5, 37, 97, 25, 13, 11]);
+const inputArray = [2, 7, 1, 9, 4];
+
+const result = sortArray(inputArray);
+
+console.log("Array:", result.Array);
+console.log("Ganjil:", result.Ganjil);
+console.log("Genap:", result.Genap);

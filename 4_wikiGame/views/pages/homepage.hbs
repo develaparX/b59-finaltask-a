@@ -68,141 +68,65 @@
         class="w-48 h-1 mx-auto my-4 bg-gray-300 border-0 rounded md:my-10 dark:bg-gray-700"
       />
 
-      <div class="overflow-x-auto max-w-5xl flex flex-col align-center">
+      <div class="overflow-x-auto overflow-x-hidden max-w-5xl flex flex-col align-center">
         <div class="flex gap-5 animate-scroll-x">
           <!-- Card 1 -->
-          <div
-            class="max-w-sm max-h-[500px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden"
-          >
-            <a href="#">
-              <img
-                class="rounded-t-lg object-cover w-full h-[200px]"
-                src="https://images.pexels.com/photos/28406651/pexels-photo-28406651/free-photo-of-gereja-armenia-bersejarah-di-pulau-akdamar-van.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt=""
-              />
-            </a>
-            <div class="p-5">
+         {{#each heroes}}
+     <div
+          class="min-w-[300px] max-h-[500px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden"
+        >
+          <a href="#">
+            <img
+              class="rounded-t-lg object-cover w-full h-[200px]"
+              src="{{this.photo}}"
+              alt=""
+            />
+          </a>
+          <div class="p-5">
+            <div class="flex items-center justify-between">
               <a href="#">
-                <h5
-                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                >Noteworthy technology acquisitions 2021</h5>
-              </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here
-                are the biggest enterprise technology acquisitions of 2021 so
-                far, in reverse chronological order.</p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              <h5
+                class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
               >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-          <!-- Card 2 -->
-          <div
-            class="max-w-sm max-h-[500px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden"
-          >
-            <a href="#">
-              <img
-                class="rounded-t-lg object-cover w-full h-[200px]"
-                src="https://images.pexels.com/photos/28406651/pexels-photo-28406651/free-photo-of-gereja-armenia-bersejarah-di-pulau-akdamar-van.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt=""
-              />
+                {{this.name}}
+              </h5>
             </a>
-            <div class="p-5">
-              <a href="#">
-                <h5
-                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                >Noteworthy technology acquisitions 2021</h5>
-              </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here
-                are the biggest enterprise technology acquisitions of 2021 so
-                far, in reverse chronological order.</p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
+              <p class="bg-red-100 rounded-lg px-3 text-sm">{{this.type_name}}</p>
             </div>
-          </div>
-          <!-- Card 3 -->
-          <div
-            class="max-w-sm max-h-[500px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden"
-          >
-            <a href="#">
-              <img
-                class="rounded-t-lg object-cover w-full h-[200px]"
-                src="https://images.pexels.com/photos/28406651/pexels-photo-28406651/free-photo-of-gereja-armenia-bersejarah-di-pulau-akdamar-van.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt=""
-              />
+            <p class="my-5 font-normal text-gray-700 dark:text-gray-400">
+               {{{safeHTML (substring this.desc 0 100)}}}
+            </p>
+           
+            <a
+              href="/heroes/{{this.id}}"
+              class="inline-flex  justify-center w-full items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Read more
+              <svg
+                class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
             </a>
-            <div class="p-5">
-              <a href="#">
-                <h5
-                  class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                >Noteworthy technology acquisitions 2021</h5>
-              </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here
-                are the biggest enterprise technology acquisitions of 2021 so
-                far, in reverse chronological order.</p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
           </div>
+        </div>
+
+      {{/each}}
+
         </div>
         <div class="m-5 flex items-center justify-center">
           <a
-            href="#"
+            href="/heroes"
             class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
           >
             More Hero!

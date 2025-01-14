@@ -41,6 +41,40 @@ async function typeList(req, res) {
   }
 }
 
+async function editTypePage(req, res) {
+  try {
+    const { user } = req.session;
+    const { id } = req.params;
+
+    const type =
+      await prisma.$queryRaw`SELECT * FROM type_tb WHERE id = ${parseInt(id)}`;
+
+    res.render("editType", { type: type[0], user });
+  } catch (error) {
+    req.flash("error", "Internal Server Error");
+    req.status(500).redirect("/type");
+  }
+}
+
+async function editType(req, res) {
+  try {
+    const { id } = req.params;
+    const { name, typeDesc } = req.body;
+
+    await prisma.$executeRaw`UPDATE type_tb
+    SET name= ${name},
+        "desc"=${typeDesc}
+    WHERE id = ${parseInt(id)}
+    `;
+
+    req.flash("success", "Type Updated Successfully");
+    res.redirect("/type");
+  } catch (error) {
+    req.flash("error", "Internal Server Error");
+    res.status(500).redirect("/type");
+  }
+}
+
 async function deleteType(req, res) {
   try {
     const id = parseInt(req.params.id, 10);
@@ -69,4 +103,11 @@ async function deleteType(req, res) {
   }
 }
 
-module.exports = { addTypePage, addType, typeList, deleteType };
+module.exports = {
+  addTypePage,
+  addType,
+  typeList,
+  deleteType,
+  editTypePage,
+  editType,
+};

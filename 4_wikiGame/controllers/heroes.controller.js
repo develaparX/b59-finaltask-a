@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const cloudinary = require("cloudinary").v2;
 
 async function heroesPage(req, res) {
   try {
@@ -49,11 +50,12 @@ async function addHeroes(req, res) {
     }
 
     const typeId = type[0].id;
-    const photo = `https://images4.alphacoders.com/937/thumb-1920-937927.jpg`;
+
+    const image = req.file.path;
 
     const result = await prisma.$queryRaw`
       INSERT INTO "heroes_tb" ("name", "type_id", "photo", "user_id", "desc")
-      VALUES (${heroesName}, ${typeId}, ${photo}, ${user.id}, ${heroesDesc})
+      VALUES (${heroesName}, ${typeId}, ${image}, ${user.id}, ${heroesDesc})
       RETURNING id, name, type_id, photo, user_id, "desc";
     `;
 
@@ -121,6 +123,9 @@ async function editHeroes(req, res) {
         heroesType
       )}`;
 
+    const heroes =
+      await prisma.$queryRaw`SELECT * FROM "heroes_tb" WHERE id = ${id}`;
+
     if (!type || type.length === 0) {
       console.log("Type tidak ditemukan");
       req.flash("error", "Invalid Type");
@@ -130,13 +135,24 @@ async function editHeroes(req, res) {
     const typeId = type[0].id;
 
     console.log("type id :", typeId);
-    const photo = `https://img.freepik.com/free-vector/cute-astronaut-samurai-with-kitsune-mask-katana-sword-cartoon-vector-icon-illustration-science_138676-9360.jpg?t=st=1736761939~exp=1736765539~hmac=f1ce486690babe87c05e2e41058b92fce80570fe97f6f0a7661e85354fa5cfb7&w=826`;
+    if (req.file) {
+      if (heroes.photo) {
+        const publicId = heroes.photo
+          .split("/")
+          .slice(-2)
+          .join("/")
+          .split(".")[0];
+
+        await cloudinary.uploader.destroy(publicId);
+      }
+      heroes.photo = req.file.path;
+    }
 
     await prisma.$executeRaw`
       UPDATE heroes_tb 
       SET name = ${heroesName},
           type_id = ${typeId},
-          photo = ${photo}, 
+          photo = ${heroes.photo}, 
           "desc" = ${heroesDesc}
       WHERE id = ${id}
     `;
@@ -159,7 +175,8 @@ async function heroesDetailPage(req, res) {
     SELECT h.*, t.name AS type_name, u.username,u.email
     FROM "heroes_tb" h
     JOIN "type_tb" t ON h.type_id = t.id
-    JOIN "users_tb" u ON h.user_id = u.id
+    JOIN "users_tb" u ON h.user_id = u.id 
+    WHERE h.id = ${parseInt(id)}
   `;
 
     console.log("berikut ini detail heroes", heroes);
@@ -174,9 +191,8 @@ async function heroesDetailPage(req, res) {
 async function deleteHeroes(req, res) {
   try {
     const { user } = req.session;
-    const id = parseInt(req.params.id, 10); // Mengambil ID hero dari parameter URL
+    const id = parseInt(req.params.id, 10);
 
-    // Menyaring apakah hero yang akan dihapus ada dalam database
     const hero = await prisma.$queryRaw`
       SELECT * FROM "heroes_tb" WHERE id = ${id} AND user_id = ${user.id};
     `;
@@ -187,7 +203,14 @@ async function deleteHeroes(req, res) {
       return res.redirect("/heroes");
     }
 
-    // Menghapus hero dari tabel heroes_tb
+    const fileUrl = hero.photo;
+
+    if (fileUrl) {
+      const publicId = fileUrl.split("/").slice(-2).join("/").split(".")[0];
+
+      await cloudinary.uploader.destroy(publicId);
+    }
+
     await prisma.$executeRaw`
       DELETE FROM "heroes_tb" WHERE id = ${id};
     `;

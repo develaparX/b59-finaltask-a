@@ -3,11 +3,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const saltRounds = 10;
 
-function homePage(req, res) {
+async function homePage(req, res) {
   const { user } = req.session;
 
-  console.log(user);
-  res.render("homepage", { user });
+  const heroes = await prisma.$queryRaw`SELECT * FROM heroes_tb`;
+
+  res.render("homepage", { heroes, user });
 }
 
 async function registerPage(req, res) {

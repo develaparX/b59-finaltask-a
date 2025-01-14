@@ -1,41 +1,30 @@
-function isPrime(num) {
-  if (num <= 1) return false;
-  for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (num % i === 0) return false;
+const isPrime = (n) => {
+  if (n < 2) return false;
+  for (let i = 2; i <= n / 2; i++) {
+    if (n % i === 0) {
+      return false;
+    }
   }
   return true;
-}
+};
 
-function generatePrimes(n) {
-  const primes = [];
-  let number = 2;
-  while (primes.length < n) {
-    if (isPrime(number)) {
-      primes.push(number);
-    }
-    number++;
-  }
-  return primes;
-}
-
-function drawSikuSiku(size) {
+const drawSikuSiku = (size) => {
   if (size <= 0 || size >= 10) {
-    console.log("Alas/Tinggi harus antara 1 dan 9");
+    console.log("Input harus antara 1 dan 9");
     return;
   }
 
-  let totalPrimes = (size * (size + 1)) / 2;
-  let primes = generatePrimes(totalPrimes);
-  let index = 0;
+  let num = 2;
 
-  for (let i = 1; i <= size; i++) {
-    let row = [];
-    for (let j = 0; j < i; j++) {
-      row.push(primes[index]);
-      index++;
+  for (let row = 1; row <= size; row++) {
+    const line = [];
+    while (line.length < row) {
+      if (isPrime(num)) line.push(num);
+      num++;
     }
-    console.log(row.join(" "));
+
+    console.log(line.join(" "));
   }
-}
+};
 
 drawSikuSiku(7);

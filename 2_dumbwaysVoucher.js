@@ -4,11 +4,11 @@ function hitungVoucher(voucher, uangBelanja) {
   let maksimalDiskon = 0;
 
   if (voucher === "DumbWaysJos") {
-    potongan = 0.211; // 21.1%
+    potongan = 0.211;
     minimalBelanja = 50000;
     maksimalDiskon = 20000;
   } else if (voucher === "DumbWaysMantap") {
-    potongan = 0.3; // 30%
+    potongan = 0.3;
     minimalBelanja = 80000;
     maksimalDiskon = 40000;
   } else {
@@ -32,11 +32,10 @@ function hitungVoucher(voucher, uangBelanja) {
 
   let kembalian = uangBelanja - totalBayar;
 
-  // Tampilkan hasil
   console.log(`Uang yang harus dibayar: ${totalBayar}`);
   console.log(`Diskon: ${diskon}`);
   console.log(`Kembalian: ${kembalian}`);
 }
 
 // Contoh penggunaan
-hitungVoucher("DumbWaysJos", 100000);
+hitungVoucher("DumbWaysJos", 60000);

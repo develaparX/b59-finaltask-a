@@ -18,6 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+app.use("/utils", express.static(path.join(__dirname, "./utils")));
+
 app.use(
   session({
     store: new pgSession({
